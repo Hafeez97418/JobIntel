@@ -1,59 +1,138 @@
+import {
+  Box,
+  Card,
+  CardActions,
+  Chip,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  Typography
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { FC } from "react";
 import { Link } from "react-router-dom";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
 
-interface Item {
-  id: string;
-  title: string;
-  path: string;
+export interface Job {
+  jobId: string;
+  jobTitle: string;
+  requiredSkills: string[];
+  experienceRequirements: number;
+  companyDetails: string;
+  status: string;
+  date: string;
+  url: string;
+  skillMatch: number;
+  missingSkills: string[];
+  experienceFitScore: number;
+  overallFitScore: number;
+  selectionProbability: number;
 }
 
-const items: Item[] = [
-  { id: "1", title: "Dashboard", path: "/dashboard" },
-  { id: "2", title: "Settings", path: "/settings" },
-  { id: "3", title: "Profile", path: "/profile" }
-];
+interface JobsListProps {
+  jobs: Job[];
+  onDelete: (id: string) => void;
+  onOpen?: (job: Job) => void;
+}
 
-export default function JobsList() {
+const JobsList: FC<JobsListProps> = ({ jobs, onDelete, onOpen }) => {
   return (
-    <List sx={{ width: "100%", maxWidth: 360 }}>
-      {items.map((item) => (
-        <ListItem
-          key={item.id}
-          disablePadding
-          sx={{
-            transition: "background-color 0.2s",
-            "&:hover": {
-              backgroundColor: "#f5f5f5"
-            }
-          }}
-        >
-          <ListItemText
-            primary={
-              <Link
-                to={item.path}
-                style={{
-                  textDecoration: "none",
-                  color: "inherit",
-                  fontSize: "1rem",
-                  transition: "color 0.2s",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.textDecoration = "underline";
-                  e.currentTarget.style.color = "#1976d2";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.textDecoration = "none";
-                  e.currentTarget.style.color = "inherit";
+    <Box sx={{ width: "100%" }}>
+      <List sx={{ width: "100%", padding: 0 }}>
+        {jobs.map(job => (
+          <Card
+            key={job.jobId}
+            sx={{
+              mb: 2,
+              borderRadius: 2,
+              background: "#fafafa",
+              boxShadow: "0px 3px 10px rgba(0,0,0,0.07)"
+            }}
+          >
+            <ListItem
+              sx={{
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "flex-start"
+              }}
+              onClick={() => onOpen && onOpen(job)}
+            >
+              <Box sx={{ flexGrow: 1 }}>
+                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                  {job.jobTitle}
+                </Typography>
+
+                <Typography
+                  variant="body2"
+                  sx={{ mt: 1 }}
+                  color="text.secondary"
+                >
+                  {job.companyDetails}
+                </Typography>
+
+                <Typography variant="body2" sx={{ mt: 0.5 }}>
+                  Experience: {job.experienceRequirements} years
+                </Typography>
+
+                {/* Skills section (safe layout) */}
+                <Box
+                  sx={{
+                    mt: 1,
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: 1
+                  }}
+                >
+                  {job.requiredSkills.slice(0, 5).map(skill => (
+                    <Chip
+                      key={skill}
+                      label={skill}
+                      size="small"
+                      sx={{ background: "white", border: "1px solid #ddd" }}
+                    />
+                  ))}
+                </Box>
+
+                <Typography variant="caption" sx={{ display: "block", mt: 1 }}>
+                  Fit Score: {job.overallFitScore.toFixed(2)} | Probability:{" "}
+                  {(job.selectionProbability * 100).toFixed(1)}%
+                </Typography>
+              </Box>
+
+              <IconButton
+                onClick={event => {
+                  event.stopPropagation();
+                  onDelete(job.jobId);
                 }}
               >
-                {item.title}
+                <DeleteIcon color="error" />
+              </IconButton>
+            </ListItem>
+
+            <Divider />
+
+            <CardActions sx={{ px: 2, pb: 1 }}>
+              <Link to={`/jobs/${job.jobId}`} style={{textDecoration:"none"}}>
+                <Typography
+                  variant="body2"
+                  color="primary"
+                  sx={{ cursor: "pointer" }}
+                >
+                  view
+                </Typography>
               </Link>
-            }
-          />
-        </ListItem>
-      ))}
-    </List>
+              <Box sx={{ flexGrow: 1 }} />
+
+              <Typography variant="caption" color="text.secondary">
+                Analyzed: {new Date(job.date).toLocaleDateString()}
+              </Typography>
+            </CardActions>
+          </Card>
+        ))}
+      </List>
+    </Box>
   );
-}
+};
+
+export default JobsList;
+

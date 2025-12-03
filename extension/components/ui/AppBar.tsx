@@ -7,6 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Box from '@mui/material/Box';
 import DrawerMain from './DrawerMain';
 import { Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 export default function DenseAppBar() {
     const [open, setOpen] = React.useState(false);
@@ -14,8 +15,8 @@ export default function DenseAppBar() {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" sx={{ paddingY: 1.2 }}>
-                <Toolbar sx={{display:"flex", justifyContent:"space-between"}}>
-                    <Box sx={{display:"flex" , alignItems:"center", justifyContent:"center"}}>
+                <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+                    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                         <IconButton
                             edge="start"
                             color="inherit"
@@ -29,7 +30,7 @@ export default function DenseAppBar() {
                             Dashboard
                         </Typography>
                     </Box>
-                    <Button sx={{}} variant='outlined' color='inherit'>Review Jobs</Button>
+                    <Link to={"/jobs"} style={{textDecoration:"none", color:"white"}}><Button variant='outlined' color='inherit'>Review Jobs</Button></Link>
                 </Toolbar>
             </AppBar>
 
