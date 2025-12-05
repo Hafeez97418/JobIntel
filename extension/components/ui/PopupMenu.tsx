@@ -13,12 +13,8 @@ const options: Options[] = [{
   url: "/dashboard.html"
 },
 {
-  page: "Login",
-  url: "/dashboard.html"
-},
-{
-  page: "Register",
-  url: "/dashboard.html"
+  page: "Jobs",
+  url: "/dashboard.html#/jobs"
 }
 ];
 

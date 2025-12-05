@@ -6,7 +6,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { AppRegistration, Cases, HomeFilled, LoginSharp, SettingsVoiceOutlined } from '@mui/icons-material';
+import {  Cases, HomeFilled } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
 export default function DrawerMain(props: { open: boolean; onClose: () => void }) {
@@ -17,16 +17,6 @@ export default function DrawerMain(props: { open: boolean; onClose: () => void }
       name: "Home",
       url: "/",
       icon: <HomeFilled />,
-    },
-    {
-      name: "Login",
-      url: "/login",
-      icon: <LoginSharp/>
-    },
-    {
-      name: "Register",
-      url: "/register",
-      icon: <AppRegistration/>,
     },
     {
       name: "Jobs",
